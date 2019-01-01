@@ -2,50 +2,54 @@ package com.example.krisz.restdemo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.krisz.restdemo.model.Person;
-import com.example.krisz.restdemo.service.PersonService;
+import com.example.krisz.restdemo.repository.PersonRepository;
 
 @RestController
 public class PersonController {
 	@Autowired
-	private PersonService personService;
+	private PersonRepository personRepository;
 	
-	@RequestMapping("/create")
-	public String create(@RequestParam String firstName,@RequestParam String lastName,@RequestParam int age) {
-		Person p = personService.create(firstName, lastName, age);
-		return p.toString();
+	@RequestMapping(value="/create", method = RequestMethod.POST)
+	public Person createPerson(@Valid @RequestBody Person person) {
+		person.setId(ObjectId.get().toHexString());
+		personRepository.save(person);
+		return person;
 	}
 	
-	@RequestMapping("/get")
-	public Person getPerson(@RequestParam String firstName) {
-		return personService.getByFirstName(firstName); 
+	@RequestMapping(value="/{id}", method = RequestMethod.GET)
+	public Person getPerson(@PathVariable("id") String id) {
+		return personRepository.findBy_id(id);
 	}
 	
-	@RequestMapping("/getAll")
+	@RequestMapping(value="/getAll", method = RequestMethod.GET)
 	public List<Person> getAll(){
-		return personService.getAll();
+		return personRepository.findAll();
 	}
 	
-	@RequestMapping("/update")
-	public String update(@RequestParam String id, @RequestParam String firstName,@RequestParam String lastName,@RequestParam int age) {
-		Person p = personService.update(id,firstName, lastName, age);
-		return p.toString();
+	@RequestMapping(value="/update/{id}", method = RequestMethod.PUT)
+	public void update(@PathVariable("id") String id, @Valid @RequestBody Person person) {
+		person.setId(id);
+		personRepository.save(person);
 	}
 	
-	@RequestMapping("/delete")
-	public String delete(@RequestParam String id) {
-		personService.delete(id);
-		return "User Deleted";
+	@RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable("id") String id) {
+		personRepository.delete(personRepository.findBy_id(id));
 	}
 	
 	@RequestMapping("/deleteAll")
-	public String deleteAll() {
-		personService.deleteAll();
-		return "All records has been deleted";
+	public void deleteAll() {
+		personRepository.deleteAll();
 	}
 }
