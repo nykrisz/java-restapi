@@ -32,15 +32,15 @@ public class PersonController {
 	}
 	
 	@RequestMapping("/update")
-	public String update(@RequestParam String firstName,@RequestParam String lastName,@RequestParam int age) {
-		Person p = personService.update(firstName, lastName, age);
+	public String update(@RequestParam String id, @RequestParam String firstName,@RequestParam String lastName,@RequestParam int age) {
+		Person p = personService.update(id,firstName, lastName, age);
 		return p.toString();
 	}
 	
 	@RequestMapping("/delete")
-	public String delete(@RequestParam String firstName) {
-		personService.delete(firstName);
-		return "Deleted "+firstName;
+	public String delete(@RequestParam String id) {
+		personService.delete(id);
+		return "User Deleted";
 	}
 	
 	@RequestMapping("/deleteAll")

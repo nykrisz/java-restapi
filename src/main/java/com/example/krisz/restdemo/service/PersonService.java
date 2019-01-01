@@ -26,8 +26,9 @@ public class PersonService {
 		return personRepository.findByFirstName(firstName);
 	}
 	
-	public Person update(String firstName, String lastName, int age) {
-		Person p = personRepository.findByFirstName(firstName);
+	public Person update(String id, String firstName, String lastName, int age) {
+		Person p = personRepository.findBy_id(id);
+		p.setFirstName(firstName);
 		p.setLastName(lastName);
 		p.setAge(age);
 		
@@ -38,8 +39,8 @@ public class PersonService {
 		personRepository.deleteAll();
 	}
 	
-	public void delete(String firstName) {
-		Person p = personRepository.findByFirstName(firstName);
+	public void delete(String id) {
+		Person p = personRepository.findBy_id(id);
 		personRepository.delete(p);
 	}
 }
