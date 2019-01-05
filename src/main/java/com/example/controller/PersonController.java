@@ -1,4 +1,4 @@
-package com.example.krisz.restdemo.controller;
+package com.example.controller;
 
 import java.util.List;
 
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.krisz.restdemo.model.Person;
-import com.example.krisz.restdemo.repository.PersonRepository;
+import com.example.model.Person;
+import com.example.repository.PersonRepository;
 
 @RestController
 public class PersonController {
