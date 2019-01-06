@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.example.model.Post;
 import com.example.repository.PostRepository;
 
 @RestController
+@CrossOrigin(origins = "https://pacific-wave-76216.herokuapp.com", maxAge = 3600)
 public class PostController {
 	@Autowired
 	private PostRepository repository;
