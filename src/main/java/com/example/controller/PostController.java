@@ -12,44 +12,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.model.Person;
-import com.example.repository.PersonRepository;
+import com.example.model.Post;
+import com.example.repository.PostRepository;
 
 @RestController
-public class PersonController {
+public class PostController {
 	@Autowired
-	private PersonRepository personRepository;
+	private PostRepository repository;
 	
-	@RequestMapping(value="/create", method = RequestMethod.POST)
-	public Person createPerson(@Valid @RequestBody Person person) {
-		person.setId(ObjectId.get().toHexString());
-		personRepository.save(person);
-		return person;
+	@RequestMapping(value="/createPost", method = RequestMethod.POST)
+	public Post createPost(@Valid @RequestBody Post post) {
+		post.set_id(ObjectId.get().toHexString());
+		repository.save(post);
+		return post;
 	}
 	
 	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public Person getPerson(@PathVariable("id") String id) {
-		return personRepository.findBy_id(id);
+	public Post getPost(@PathVariable("id") String id) {
+		return repository.findBy_id(id);
 	}
 	
-	@RequestMapping(value="/getAll", method = RequestMethod.GET)
-	public List<Person> getAll(){
-		return personRepository.findAll();
+	@RequestMapping(value="/getAllPost", method = RequestMethod.GET)
+	public List<Post> getAll(){
+		return repository.findAll();
 	}
 	
 	@RequestMapping(value="/update/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable("id") String id, @Valid @RequestBody Person person) {
-		person.setId(id);
-		personRepository.save(person);
+	public void update(@PathVariable("id") String id, @Valid @RequestBody Post post) {
+		post.set_id(id);
+		repository.save(post);
 	}
 	
 	@RequestMapping(value="/delete/{id}", method = RequestMethod.DELETE)
 	public void delete(@PathVariable("id") String id) {
-		personRepository.delete(personRepository.findBy_id(id));
+		repository.delete(repository.findBy_id(id));
 	}
 	
 	@RequestMapping("/deleteAll")
 	public void deleteAll() {
-		personRepository.deleteAll();
+		repository.deleteAll();
 	}
 }
